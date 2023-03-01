@@ -17,6 +17,15 @@
   <link href="{{ asset('css/style.css') }}" rel="stylesheet">
   <!-- color CSS -->
   <link href="{{ asset('css/colors/default.css') }}" id="theme" rel="stylesheet">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  
+    <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>    
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+</head>
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -70,6 +79,6 @@
     <script src="{{ asset('js/custom.min.js') }}"></script>
     <!--Style Switcher -->
     <script src="{{ asset('../plugins/bower_components/styleswitcher/jQuery.style.switcher.js') }}"></script>
-</body>
 
+</body>
 </html>

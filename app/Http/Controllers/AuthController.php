@@ -20,7 +20,11 @@ class AuthController extends Controller
     public $token;
     public function index()
     {
-        return view('login');
+        if (!Auth::check()) {
+            return view('login');
+        }
+
+        return redirect("dashboard")->withSuccess('You are not allowed to access');
     }
     public function userLogin(Request $request)
     {
@@ -72,7 +76,7 @@ class AuthController extends Controller
             return view('dashboard');
         }
 
-        return redirect("dashboard")->withSuccess('You are not allowed to access');
+        return redirect("login")->withSuccess('You are not allowed to access');
     }
 
     public function signOut()
@@ -96,7 +100,7 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
         if (!$user) {
             if (!$user) {
-                return back()->with('error', 'Rest link send to your registered mail address!');
+                return back()->with('error', 'email id is not found!');
             }
         }
         $token = Str::random(64);
@@ -161,19 +165,17 @@ class AuthController extends Controller
     {
         $request->validate(
             [
-                'old_password'=> 'required',
-                'new_password'=> 'required|min:8',               
+                'old_password' => 'required',
+                'new_password' => 'required|min:8',
                 'confirm_password' => 'required|same:new_password'
-            ]);
-            if(!Hash::check($request->old_password, auth()->user()->password))
-            {
-                return back()->with("error", "Old Password Doesn't match!");
-            }            
-            User::whereId(auth()->user()->id)->update([
-                'password' => Hash::make($request->new_password)
-            ]);
-            return back()->with("status", "Password changed successfully!");
+            ]
+        );
+        if (!Hash::check($request->old_password, auth()->user()->password)) {
+            return back()->with("error", "Old Password Doesn't match!");
+        }
+        User::whereId(auth()->user()->id)->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+        return back()->with("status", "Password changed successfully!");
     }
-
- 
 }

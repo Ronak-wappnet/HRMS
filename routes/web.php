@@ -21,4 +21,9 @@ Route::post('userProfileUpdate',[UserController::class,'userProfileUpdate'])->na
 Route::get('users',[UserController::class,'users'])->name('displayUser');
 Route::get('admin/edit/{user}',[UserController::class,'editUserPage'])->name('editUserPage');
 Route::post('admin/update/{user}',[UserController::class,'editUser'])->name('editUser');
+Route::get('deleteUser/{user}',[UserController::class,'userSoftDelete'])->name('userSoftDelete');
 // Route::view('changepass','changePassword');
+Route::get('test',[UserController::class,'index'])->name('test');
+Route::get('test/deleteUser/{id}',[UserController::class,'userSoftDelete1'])->name('userSoftDelete1');
+Route::get('test/admin/edit/{user}',[UserController::class,'editUserPage1'])->name('editUserPage1');
+Route::post('test/admin/update/{user}',[UserController::class,'editUser1'])->name('editUser1');

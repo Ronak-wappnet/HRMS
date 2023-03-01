@@ -19,27 +19,50 @@
             <!-- /.col-lg-12 -->
         </div>
         <!-- Row -->
-        <table class="table table-hover">
-            <thead class="table-light">
+        @if (session('status'))
+        <div class="alert alert-success" role="alert">
+            {{ session('status') }}
+        </div>
+        @endif
+        <table class="table table-bordered user_datatable">
+            <thead>
                 <tr>
-                    <th>User ID</th>
-                    <th>User Name</th>
-                    <th>Email id</th>
-                    <!-- <th>Password</th> -->
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th width="100px">Action</th>
                 </tr>
             </thead>
-            <tbody>
-                @foreach ($users as $user)
-                <tr>
-                    <td >{{$user->id}}</td>
-                    <td >{{$user->name}}</td>
-                    <td >{{$user->email}}</td>
-                   <td><a href="{{Route('editUserPage',['user' => $user]) }}">Edit</a></td>
-                </tr> 
-                @endforeach
-            </tbody>
-
+            <tbody></tbody>
         </table>
+        <script type="text/javascript">
+            jQuery(function($) {
 
+                var table = $('.user_datatable').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: "{{ route('test') }}",
+                    columns: [{
+                            data: 'id',
+                            name: 'id'
+                        },
+                        {
+                            data: 'name',
+                            name: 'name'
+                        },
+                        {
+                            data: 'email',
+                            name: 'email'
+                        },
+                        {
+                            data: 'action',
+                            name: 'action',
+                            orderable: false,
+                            searchable: false
+                        },
+                    ]
+                });
+            })
+        </script>
         @include('layout.footer')
         @endsection
