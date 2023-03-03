@@ -14,18 +14,25 @@ use Illuminate\Auth\Events\Validated;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 use Doctrine\Common\Lexer\Token;
+use App\Jobs\SendEmailJob;
+use App\Mail\forgotPassword;
+use App\Mail\MailNotify;
 
 class AuthController extends Controller
 {
     public $token;
+    
+    
     public function index()
     {
         if (!Auth::check()) {
-            return view('login');
+            return view('login')->with('error', 'You are not allowed to access dashboard');
         }
 
-        return redirect("dashboard")->withSuccess('You are not allowed to access');
+        return redirect("dashboard");
     }
+
+    // user login 
     public function userLogin(Request $request)
     {
         $request->validate([
@@ -39,14 +46,16 @@ class AuthController extends Controller
                 ->withSuccess(' welcome user ! you are Signed in');
         }
 
-        return redirect("login")->withSuccess('Login details are not valid');
+        return redirect("login")->with('error', 'Invalid Email Id or Password');
     }
 
+    // user registration form link
     public function registration()
     {
         return view('register');
     }
 
+    //user registrtion 
     public function userRegistration(Request $request)
     {
         $request->validate([
@@ -58,9 +67,10 @@ class AuthController extends Controller
         $data = $request->all();
         $check = $this->create($data);
 
-        return redirect("login")->withSuccess('You have signed-in');
+        return redirect("login")->with('success', 'You have signed-up');
     }
 
+    //creating new user
     public function create(array $data)
     {
         return User::create([
@@ -70,22 +80,22 @@ class AuthController extends Controller
         ]);
     }
 
+    //user dashboard
     public function dashboard()
     {
         if (Auth::check()) {
             return view('dashboard');
         }
-
-        return redirect("login")->withSuccess('You are not allowed to access');
+        return redirect("login")->with('error', 'You are not allowed to access');
     }
 
     public function signOut()
     {
         Session::flush();
         Auth::logout();
-
         return Redirect('login');
     }
+
     public function forgotPasswordPage()
     {
         return view('forgot_password');
@@ -94,15 +104,15 @@ class AuthController extends Controller
     public function userForgotPassword(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|exists:users',
+            'email' => 'required|email',
         ]);
 
         $user = User::where('email', $request->email)->first();
+
         if (!$user) {
-            if (!$user) {
-                return back()->with('error', 'email id is not found!');
-            }
+            return back()->with('error', 'email id is not found!');
         }
+
         $token = Str::random(64);
         $email = $request->email;
         DB::table('password_reset_tokens')->where('email', $email)->delete();
@@ -111,47 +121,41 @@ class AuthController extends Controller
             'token' => $token,
             'created_at' => Carbon::now(),
         ]);
-        Mail::send('forgotPassMail', ['token' => $token], function ($message) use ($request) {
-            $message->from('rronak0016@gmail.com');
-            $message->to($request->email);
-            $message->subject('Reset password');
-        });
+
+        $data['email'] = $email;
+        $data['token'] = $token;
+
+        // Mail::to($email)->send(new forgotPassword($data));
+        dispatch(new SendEmailJob($data));
+        
         return back()->with('success', 'Rest link send to your registered mail address!');
     }
 
     public function resetPasswordForm(Request $request, $token = null)
     {
-
         return view('passwordReset')->with(['token' => $token, 'email' => $request->email]);
     }
 
     public function resetPassword(Request $request)
     {
-
         $request->validate([
             'email' => 'required|email|exists:users',
             'password' => 'required|min:8',
             'confirm_passsword' => 'required|same:password'
         ]);
-
         $check_token = DB::table('password_reset_tokens')->where([
             'email' => $request->email,
             'token' => $request->token,
         ])->first();
-
         if (!$check_token) {
-
             return back()->withInput()->with('fail', 'Invalid token');
         } else {
-
             User::where('email', $request->email)->update([
                 'password' => Hash::make($request->password)
             ]);
-
             DB::table('password_reset_tokens')->where([
                 'email' => $request->email
             ])->delete();
-
             return redirect()->route('login')->with('info', 'Your password has been changed! You can login with new password')->with('verifiedEmail', $request->email);
         }
     }
@@ -179,3 +183,4 @@ class AuthController extends Controller
         return back()->with("status", "Password changed successfully!");
     }
 }
+?>

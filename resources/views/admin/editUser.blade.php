@@ -18,9 +18,9 @@
             <!-- /.col-lg-12 -->
         </div>
         <!-- Row -->
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-4">
+        <div class="col-md-12">
+            <div class="white-box">
+                <div class="white-box">
                     @if (session('status'))
                     <div class="alert alert-success" role="alert">
                         {{ session('status') }}
@@ -30,32 +30,39 @@
                         {{ session('error') }}
                     </div>
                     @endif
-                    <form method="POST" action="{{Route('editUser', ['user' => $user])}}">
-                        <label>User Name</label>
-                        <div class="form-group pass_show">
-                            @csrf
-                            <input type="text" id="email" name="name" value="{{$user->name}}" class="form-control my-3" />
-                            @error('username')
-                            <span class="text-danger">{{ $message }}</span>
-                            @enderror
+                    <form method="POST" action="{{Route('editUser', ['user' => $user])}}" class="form-horizontal">
+                        @csrf
+                        <div class="form-group">
+                            <label for="username" class="col-sm-3 control-label">Username</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="email" name="name" value="{{$user->name}}" class="form-control my-3" />
+                                @error('username')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
                         </div>
-                        <label>Email Id</label>
-                        <div class="form-group pass_show">
-                        <input type="email" id="email" name="email" value="{{$user->email}}" class="form-control my-3" />
-                            @error('email')
-                            <span class="text-danger">{{$message}}</span>
-                            @enderror
+
+                        <div class="form-group">
+                            <label for="Email" class="col-sm-3 control-label">Email Id</label>
+                            <div class="col-sm-9">
+                                <input type="email" id="email" name="email" value="{{$user->email}}" class="form-control my-3" />
+                                @error('email')
+                                <span class="text-danger">{{$message}}</span>
+                                @enderror
+                            </div>
                         </div>
-                        <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">
-                Edit Data
-            </button>
-                        
+
+
+                        <div class="form-group m-b-0">
+                            <div class="col-sm-offset-3 col-sm-9">
+                                <button type="submit" class="btn btn-info waves-effect waves-light m-t-10">Update</button>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
-        
+
 
         @include('layout.footer')
         @endsection
-

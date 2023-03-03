@@ -3,37 +3,56 @@
 <section id="wrapper" class="login-register">
     <div class="login-box">
         <div class="white-box">
-            <div class="card-header h4 text-white bg-primary">Password Reset</div>
             <div class="card-body px-5">
-
-                <div class="white-box">
-                    @if (session('error'))
-                    <div class="alert alert-error alert-dismissable">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        {{ session('error') }}
-                    </div>
-                    @endif
-                    @if (session('success'))
-                    <div class="alert alert-success alert-dismissable">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        {{ session('success') }}
-                    </div>
-                    @endif
-                    <p class="card-text py-2">
-                        Enter your email address,
-                        Reset password link will be sent to your Email.
-                    </p>
-                    <form method="POST" action="{{Route('userForgotPassword')}}">
-                        @csrf
-                        <input type="email" id="email" name="email" placeholder="Enter registerd email" class="form-control my-3" />
-                        <br>
-                        <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">
-                            Submit
-                        </button>
-                    </form>
+                @if (session()->has('error'))
+                <div class="alert alert-danger alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    {{ session()->get('error') }}
                 </div>
+                @endif
+                @if (session()->has('success'))
+                <div class="alert alert-success alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    {{ session()->get('success') }}
+                </div>
+                @endif
+                <form class="form-horizontal" id="forgotPassword"action="{{Route('userForgotPassword')}}" method="post">
+                    @csrf
+                    <div class="form-group ">
+                        <div class="col-xs-12">
+                            <h3>Recover Password</h3>
+                            <p class="text-muted">Enter your Email and instructions will be sent to you! </p>
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <div class="col-xs-12">
+                            <input class="form-control" type="email" name="email" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="form-group text-center m-t-20">
+                        <div class="col-xs-12">
+                            <button class="btn btn-primary btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Reset</button>
+                            <a class="btn btn-primary btn-lg btn-block text-uppercase waves-effect waves-light" href="{{Route('login')}}">login</a>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </section>
+<script>
+      $('#forgotPassword').validate({
+        rules: {
+          email: {
+            required: true|email,
+          }          
+        },
+        messages: {
+          email: {
+            required: "Please Enter email Id",
+            email:"Enetr valid Email id"
+          }
+        }
+      })
+    </script>
 @endsection

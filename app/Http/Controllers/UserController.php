@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use \Yajra\Datatables\Datatables;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -22,7 +23,7 @@ class UserController extends Controller
             'username' => 'required',
             'email'=> 'required|email',
         ]);
-        if((User::where('name', '=', $request->username)->exists()) OR (User::where('email', '=', $request->email)->exists())){
+        if((User::where('name', '=', $request->username)->exists()) and (User::where('email', '=', $request->email)->exists())){
 
             return back()->with("error", " username or password is already exist");
         }
@@ -39,38 +40,7 @@ class UserController extends Controller
                 
         return view('users');
     }
-    // public function editUserPage(User $user){
-        
-    //     return view('admin.editUser',compact('user'));
-    // }
-
-
-    // public function editUser(Request $request,User $user){
-
-    //     $request->validate([
-
-    //         'name' => 'required',
-    //         'email'=> 'required|email',
-    //     ]);
-    //     // if((User::where('name', '=', $request->username)->exists()) OR (User::where('email', '=', $request->email)->exists())){
-
-    //     //     return back()->with("error", " username or password is already exist");
-    //     // }       
-    //     /** @var \App\Models\User $user */
-    //         $user->update($request->all());
-    //     // $user->name = $request['username'];
-    //     // $user->email = $request['email'];
-    //     // $user->save();
-    //     return back()->with('status','Profile Updated');
-    // }
-
-
-    // public function userSoftDelete(user $user)
-    // {        
-    //     $user->delete();
-    //     return back()->with('status','User Deleted');
-    // }
-
+    
     public function userSoftDelete($id)
     {        
         $user=User::find($id);
@@ -106,23 +76,54 @@ class UserController extends Controller
         $user=User::find($id);
         return view('admin.editUser',compact('user'));
     }
+
     public function editUser(Request $request,User $user){
 
         $request->validate([
 
             'name' => 'required',
             'email'=> 'required|email',
-        ]);
-        // if((User::where('name', '=', $request->username)->exists()) OR (User::where('email', '=', $request->email)->exists())){
+        ]);        
+        $user->update($request->all());        
+        return view('users')->with('Success','User Edited');
+        // return back()->with('status','Profile Updated');
+    }
 
-        //     return back()->with("error", " username or password is already exist");
-        // }       
-        /** @var \App\Models\User $user */
-            $user->update($request->all());
-        // $user->name = $request['username'];
-        // $user->email = $request['email'];
-        // $user->save();
-        return back()->with('status','Profile Updated');
+    //admin adduser page
+    public function adduserPage(){
+        return view('admin.addUser');
+    }
+    public function addUser(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6',
+        ]);
+
+        $data = $request->all();
+        $check = $this->create($data);
+
+        return back()->with('success','User Added');
+    }
+    public function create(array $data)
+    {
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password'])
+        ]);
     }
     
 }
+
+
+
+
+
+
+
+
+
+
+?>

@@ -13,6 +13,12 @@
             @if ($errors->has('name'))
             <span class="text-danger">{{ $errors->first('name') }}</span>
             @endif
+            <!-- @if (session()->has('Success'))
+            <div class="alert alert-success alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                {{ session()->get('Success') }} 
+            </div>
+            @endif -->
           </div>
         </div>
         <div class="form-group ">
@@ -81,10 +87,12 @@
                 },
                 confirm_password: {
                     required: "Confirm password is required",
-                    //equalTo: "password is not same"
+                    equalTo: "password is not same"
                 },
             },
-        })
+        })     
+
+
     </script>       
     @endsection
   

@@ -17,9 +17,10 @@
             <!-- /.col-lg-12 -->
         </div>
         <!-- Row -->
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-4">
+
+        <div class="col-md-12">
+            <div class="white-box">
+                <div class="white-box">
                     @if (session('status'))
                     <div class="alert alert-success" role="alert">
                         {{ session('status') }}
@@ -29,32 +30,43 @@
                         {{ session('error') }}
                     </div>
                     @endif
-                    <form id="changePassForm" action="{{ Route('changePassword') }}" method="post">
-                        <label>Current Password</label>
-                        <div class="form-group pass_show">
-                            @csrf
-                            <input type="password" class="form-control" placeholder="Current Password" name="old_password">
-                            @error('old_password')
-                            <span class="text-danger">{{ $message }}</span>
-                            @enderror
+                    <form method="POST" action="{{Route('changePassword')}}" class="form-horizontal" id="changePassForm">
+                        @csrf
+                        <div class="form-group">
+                            <label for="currentPassword" class="col-sm-3 control-label">Current Password</label>
+                            <div class="col-sm-9">
+                                <input type="password" class="form-control" placeholder="Current Password" name="old_password">
+
+                            </div>
                         </div>
-                        <label>New Password</label>
-                        <div class="form-group pass_show">
-                            <input type="password" class="form-control" placeholder="New Password" name="new_password">
-                            @error('new_password')
-                            <span class="text-danger">{{$message}}</span>
-                            @enderror
+
+                        <div class="form-group">
+                            <label for="new password" class="col-sm-3 control-label">New Password</label>
+                            <div class="col-sm-9">
+                                <input type="password" class="form-control" placeholder="New Password" name="new_password">
+                                @error('new_password')
+                                <span class="text-danger">{{$message}}</span>
+                                @enderror
+                            </div>
                         </div>
-                        <label>Confirm Password</label>
-                        <div class="form-group pass_show">
-                            <input type="password" class="form-control" placeholder="Confirm Password" name="confirm_password">
+
+                        <div class="form-group">
+                            <label for="confirmpassword" class="col-sm-3 control-label">Confirm Password</label>
+                            <div class="col-sm-9">
+                                <input type="password" class="form-control" placeholder="Confirm Password" name="confirm_password">
+                            </div>
                         </div>
-                        <div class="col-xs-12">
-                            <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Change Password</button>
+
+                        <div class="form-group m-b-0">
+                            <div class="col-sm-offset-3 col-sm-9">
+                                <button type="submit" class="btn btn-info waves-effect waves-light m-t-10">Update</button>
+                            </div>
                         </div>
+
                     </form>
                 </div>
             </div>
         </div>
+
         @include('layout.footer')
         @endsection

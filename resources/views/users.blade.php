@@ -19,50 +19,66 @@
             <!-- /.col-lg-12 -->
         </div>
         <!-- Row -->
-        @if (session('status'))
-        <div class="alert alert-success" role="alert">
-            {{ session('status') }}
-        </div>
-        @endif
-        <table class="table table-bordered user_datatable">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th width="100px">Action</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-        <script type="text/javascript">
-            jQuery(function($) {
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="white-box">
+                  
+                    @if (session()->has('status'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session()->get('status') }}
+                    </div>
+                    @endif
+                    @if (session()->has('Success'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session()->get('Success') }}
+                    </div>
+                    @endif
+                    <div class="table-responsive">
+                    <div class="pull-left mb-2">
+                        <a class="btn btn-success" href="{{Route('adminAddUserPage')}}"> Add user</a>
+                    </div>
+                        <table class="table table-bordered user_datatable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th width="100px">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript">
+                jQuery(function($) {
 
-                var table = $('.user_datatable').DataTable({
-                    processing: true,
-                    serverSide: true,
-                    ajax: "{{ route('test') }}",
-                    columns: [{
-                            data: 'id',
-                            name: 'id'
-                        },
-                        {
-                            data: 'name',
-                            name: 'name'
-                        },
-                        {
-                            data: 'email',
-                            name: 'email'
-                        },
-                        {
-                            data: 'action',
-                            name: 'action',
-                            orderable: false,
-                            searchable: false
-                        },
-                    ]
-                });
-            })
-        </script>
-        @include('layout.footer')
-        @endsection
+                    var table = $('.user_datatable').DataTable({
+                        processing: true,
+                        serverSide: true,
+                        ajax: "{{ route('dataTables') }}",
+                        columns: [{
+                                data: 'id',
+                                name: 'id'
+                            },
+                            {
+                                data: 'name',
+                                name: 'name'
+                            },
+                            {
+                                data: 'email',
+                                name: 'email'
+                            },
+                            {
+                                data: 'action',
+                                name: 'action',
+                                orderable: false,
+                                searchable: false
+                            },
+                        ]
+                    });
+                })
+            </script>
+            @include('layout.footer')
+            @endsection
