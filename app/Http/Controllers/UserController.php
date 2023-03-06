@@ -85,7 +85,8 @@ class UserController extends Controller
             'email'=> 'required|email',
         ]);        
         $user->update($request->all());        
-        return view('users')->with('Success','User Edited');
+        return redirect()->route('displayUser')->with('Success','User Edited Successfully');
+        // return view('users')->with('Success','User Edited');
         // return back()->with('status','Profile Updated');
     }
 
@@ -104,7 +105,8 @@ class UserController extends Controller
         $data = $request->all();
         $check = $this->create($data);
 
-        return back()->with('success','User Added');
+        return redirect()->route('displayUser')->with('Success','User Created');
+        // return back()->with('success','User Added');
     }
     public function create(array $data)
     {

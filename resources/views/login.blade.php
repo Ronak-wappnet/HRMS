@@ -73,7 +73,7 @@
 <script>
   $('#loginform').validate({
     rules: {
-      username: {
+      email: {
         required: true,
       },
       password: {
@@ -81,8 +81,8 @@
       }
     },
     messages: {
-      username: {
-        required: "Please Enter username"
+      email: {
+        required: "Please Enter Valid Email Id"
       },
       password: {
         required: "Please Enter password"

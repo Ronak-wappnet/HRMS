@@ -34,16 +34,17 @@
                     </div>
                     @endif
                     <div class="table-responsive">
-                    <div class="pull-left mb-2">
+                   @can('editUser') <div class="pull-left mb-2">
                         <a class="btn btn-success" href="{{Route('adminAddUserPage')}}"> Add user</a>
                     </div>
+                    @endcan
                         <table class="table table-bordered user_datatable">
                             <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th>Email</th>
-                                    <th width="100px">Action</th>
+                                    @can('editUser')<th width="100px">Action</th>@endcan
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -70,12 +71,12 @@
                                 data: 'email',
                                 name: 'email'
                             },
-                            {
+                           @can('editUser') {
                                 data: 'action',
                                 name: 'action',
                                 orderable: false,
                                 searchable: false
-                            },
+                            },@endcan
                         ]
                     });
                 })

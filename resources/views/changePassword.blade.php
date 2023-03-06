@@ -67,6 +67,55 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<script>
+    $('#changePassForm').validate({
+        rules: {
+            old_password: {
+                required: true,
+            },
+            new_password: {
+                strong_password:true,
+                required: true,
+            },
+            confirm_password: {
+                required: true,
+                equalTo: '[name="new_password"]',
+            },
+        },
+        messages: {            
+            old_password: {
+                required: "Please enter old password",
+            },
+            confirm_password: {
+                required: "Confirm password is required",
+                equalTo: "password is not same"
+            },
+        },
+    })
+    $.validator.addMethod("strong_password", function(value, element) {
+        let password = value;
+        if (!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%&])(.{8,20}$)/.test(password))) {
+            return false;
+        }
+        return true;
+    }, function(value, element) {
+        let password = $(element).val();
+        if (!(/^(.{8,20}$)/.test(password))) {
+            return 'Password must be between 8 to 20 characters long.';
+        } else if (!(/^(?=.*[A-Z])/.test(password))) {
+            return 'Password must contain at least one uppercase.';
+        } else if (!(/^(?=.*[a-z])/.test(password))) {
+            return 'Password must contain at least one lowercase.';
+        } else if (!(/^(?=.*[0-9])/.test(password))) {
+            return 'Password must contain at least one digit.';
+        } else if (!(/^(?=.*[@#$%&])/.test(password))) {
+            return "Password must contain special characters from @#$%&.";
+        }
+        return false;
+    });
+</script>
 
-        @include('layout.footer')
-        @endsection
+@include('layout.footer')
+@endsection

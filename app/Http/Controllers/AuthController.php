@@ -17,6 +17,10 @@ use Doctrine\Common\Lexer\Token;
 use App\Jobs\SendEmailJob;
 use App\Mail\forgotPassword;
 use App\Mail\MailNotify;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+
+
 
 class AuthController extends Controller
 {
@@ -24,7 +28,7 @@ class AuthController extends Controller
     
     
     public function index()
-    {
+    {        
         if (!Auth::check()) {
             return view('login')->with('error', 'You are not allowed to access dashboard');
         }
@@ -65,8 +69,8 @@ class AuthController extends Controller
         ]);
 
         $data = $request->all();
-        $check = $this->create($data);
-
+        $user = $this->create($data);
+        $user->assignRole('Employee');
         return redirect("login")->with('success', 'You have signed-up');
     }
 
@@ -78,11 +82,13 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password'])
         ]);
+
+
     }
 
     //user dashboard
     public function dashboard()
-    {
+    {     
         if (Auth::check()) {
             return view('dashboard');
         }
@@ -125,8 +131,8 @@ class AuthController extends Controller
         $data['email'] = $email;
         $data['token'] = $token;
 
-        // Mail::to($email)->send(new forgotPassword($data));
-        dispatch(new SendEmailJob($data));
+        Mail::to($email)->send(new forgotPassword($data));
+        // dispatch(new SendEmailJob($data));
         
         return back()->with('success', 'Rest link send to your registered mail address!');
     }
@@ -183,4 +189,3 @@ class AuthController extends Controller
         return back()->with("status", "Password changed successfully!");
     }
 }
-?>
