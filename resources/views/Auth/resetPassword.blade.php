@@ -9,7 +9,7 @@
                 {{ session()->get('fail') }}
             </div>
             @endif
-            <form form class="form-horizontal form-material" id="loginform" action="{{ route('resetPassword') }}" method="POST">
+            <form form class="form-horizontal form-material" id="loginform" action="{{ route('resetPasswordFormAction') }}" method="POST">
                 <div class="form-group">
                     <label>Reset Password</label>
                     @csrf

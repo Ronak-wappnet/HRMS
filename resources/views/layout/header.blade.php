@@ -22,9 +22,9 @@
             <a href="{{ asset('#') }}" class="dropdown-toggle u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Super Admin
               <span class="caret"></span></a>
             <ul class="dropdown-menu animated flipInY">
-              <li><a href="{{Route('userProfile')}}"><i class="ti-user"></i> Profile</a></li>
-              <li><a href="{{Route('changePasswordForm')}}"><i class="ti-wallet"></i> Change Password</a></li>
-              <li><a href="{{Route('signout')}}"><i class="fa fa-power-off"></i> Logout</a></li>
+              <li><a href="{{ Route('profile') }}"><i class="ti-user"></i> Profile</a></li>
+              <li><a href="{{ Route('changePassword') }}"><i class="ti-wallet"></i> Change Password</a></li>
+              <li><a href="{{Route('singOut')}}"><i class="fa fa-power-off"></i> Logout</a></li>
             </ul>
           </div>
         </div>
@@ -37,7 +37,7 @@
           <li><a href="{{ asset('inbox.html') }}" class="waves-effect">
             <i data-icon="6" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">General<span class="fa arrow"></span></span></a>
             <ul class="nav nav-second-level">
-            <li><a href="{{ Route('displayUser') }}"><i class="linea-icon linea-basic fa-fw" data-icon="!"></i>Users</a></li>
+            <li><a href="#"><i class="linea-icon linea-basic fa-fw" data-icon="!"></i>Users</a></li>
               <li><a href="{{ asset('chat.html') }}"><i class="linea-icon linea-basic fa-fw" data-icon="v"></i>Company</a></li>
               <li><a href="{{ asset('javascript:void(0)') }}" class="waves-effect"><i class="linea-icon linea-basic fa-fw" data-icon="v"></i>Department</a></li>
               <li><a href="{{ asset('javascript:void(0)') }}" class="waves-effect"><i class="linea-icon linea-basic fa-fw" data-icon="e"></i>Email Formet</a></li>

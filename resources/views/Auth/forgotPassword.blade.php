@@ -16,7 +16,7 @@
                     {{ session()->get('success') }}
                 </div>
                 @endif
-                <form class="form-horizontal" id="forgotPassword"action="{{Route('userForgotPassword')}}" method="post">
+                <form class="form-horizontal" id="forgotPassword" action="{{Route('forgotPasswordAction')}}" method="post">
                     @csrf
                     <div class="form-group ">
                         <div class="col-xs-12">
@@ -41,18 +41,19 @@
     </div>
 </section>
 <script>
-      $('#forgotPassword').validate({
+    $('#forgotPassword').validate({
         rules: {
-          email: {
-            required: true|email,
-          }          
-        },
-        messages: {
-          email: {
-            required: "Please Enter email Id",
-            email:"Enetr valid Email id"
-          }
+            email: {
+                required: true | email
+            , }
         }
-      })
-    </script>
+        , messages: {
+            email: {
+                required: "Please Enter email Id"
+                , email: "Enetr valid Email id"
+            }
+        }
+    })
+
+</script>
 @endsection

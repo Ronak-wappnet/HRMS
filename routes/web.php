@@ -1,45 +1,29 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DataTableController;
 use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Auth;
 
-Route::view('/','login');
-Route::get('dashboard', [AuthController::class, 'dashboard'])->name('dashboard'); 
-Route::get('login', [AuthController::class, 'index'])->name('login');
-Route::post('user-login', [AuthController::class, 'userLogin'])->name('userLogin'); 
-Route::get('register', [AuthController::class, 'registration'])->name('register');
-Route::post('user-registration', [AuthController::class, 'userRegistration'])->name('userRegister'); 
-Route::get('signout', [AuthController::class, 'signOut'])->name('signout');
-Route::get('forgotPassword',[AuthController::class,'forgotPasswordPage'])->name('forgotPasswordPage');
-Route::post('userForgotPassword',[AuthController::class,'userForgotPassword'])->name('userForgotPassword');
-Route::get('passwordResetForm/{token}',[AuthController::class,'resetPasswordForm'])->name('passwordResetForm');
-Route::post('resetPassword',[AuthController::class,'resetpassword'])->name('resetPassword');
-Route::get('changePasswordForm',[AuthController::class,'changePasswordForm'])->name('changePasswordForm');
-Route::post('changePassword',[AuthController::class,'changePassword'])->name('changePassword');
-Route::get('userProfile',[UserController::class,'userProfile'])->name('userProfile');
-Route::post('userProfileUpdate',[UserController::class,'userProfileUpdate'])->name('userProfileUpdate');
-Route::get('users',[UserController::class,'users'])->name('displayUser');
-Route::get('user',[UserController::class,'index'])->name('dataTables');
-Route::get('user/deleteUser/{id}',[UserController::class,'userSoftDelete'])->name('userSoftDelete');
-Route::get('admin/edit/{user}',[UserController::class,'editUserPage'])->name('editUserPage');
-Route::post('admin/update/{user}',[UserController::class,'editUser'])->name('editUser');
+//login and registration
+Route::get('/',[AuthController::class,'login'])->name('login');
+Route::get('/login',[AuthController::class,'login'])->name('login');
+Route::post('/loginForm',[AuthController::class,'loginAction'])->name('loginAction');
+Route::get('/registration',[AuthController::class,'registration'])->name('registration');
+Route::post('/registraionForm',[AuthController::class,'registrationAction'])->name('registrationAction');
+Route::get('/singout',[AuthController::class,'signOut'])->name('singOut');
+Route::get('/dashboard',[AuthController::class,'dashboard'])->name('dashboard');
 
-Route::get('admin/addUser',[UserController::class,'adduserPage'])->name('adminAddUserPage');
-Route::post('admin/addUser',[UserController::class,'addUser'])->name('adminAddUser');
-//testing Routes for the dataTables
-Route::view('testing','testing.adminAccess');
-Route::get('ajax-crud-datatable', [DataTableController::class, 'index']);
-Route::post('store-company', [DataTableController::class, 'store']);
-Route::post('edit-company', [DataTableController::class, 'edit']);
-Route::post('delete-company', [DataTableController::class, 'destroy']);
+//user forgot password 
+Route::get('/forgotPassword',[AuthController::class,'forgotPassword'])->name('forgotPassword');
+Route::post('/forgotPassword/resetPasswordForm',[AuthController::class,'forgotPasswordAction'])->name('forgotPasswordAction');
 
+//user reset password
+Route::get('/resetPasswordForm/{token}',[AuthController::class,'resetPasswordForm'])->name('resetPasswordForm');
+Route::post('/resetPassword',[AuthController::class,'resetPasswordFormAction'])->name('resetPasswordFormAction');
 
-
-
-
-
-
-?>
+//user profile and change password
+Route::get('/user-profile',[UserController::class,'profile'])->name('profile');
+Route::post('/update-profile',[UserController::class,'profileAction'])->name('profileAction');
+Route::get('/change-password',[UserController::class,'changePassword'])->name('changePassword');
+Route::post('/change-password-action',[UserController::class,'changePasswordAction'])->name('changePasswordAction');

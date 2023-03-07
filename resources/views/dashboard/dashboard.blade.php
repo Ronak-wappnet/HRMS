@@ -11,13 +11,11 @@
       <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
         
         <ol class="breadcrumb">
-          <li><a href="{{Route('dashboard')}}">Dashboard</a></li>
-         
+          <li><a href="{{Route('dashboard')}}">Dashboard</a></li>         
         </ol>
       </div>
       <!-- /.col-lg-12 -->
     </div>
     <!-- Row -->
-
     @include('layout.footer')
     @endsection
