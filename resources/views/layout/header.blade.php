@@ -35,24 +35,24 @@
           </li>
 
           <li><a href="{{ asset('inbox.html') }}" class="waves-effect">
-            <i data-icon="6" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">General<span class="fa arrow"></span></span></a>
+            <i data-icon="6" class="fa fa-cogs"></i> <span class="hide-menu">General<span class="fa arrow"></span></span></a>
             <ul class="nav nav-second-level">
-            <li><a href="#"><i class="linea-icon linea-basic fa-fw" data-icon="!"></i>Users</a></li>
-              <li><a href="{{ asset('chat.html') }}"><i class="linea-icon linea-basic fa-fw" data-icon="v"></i>Company</a></li>
-              <li><a href="{{ asset('javascript:void(0)') }}" class="waves-effect"><i class="linea-icon linea-basic fa-fw" data-icon="v"></i>Department</a></li>
-              <li><a href="{{ asset('javascript:void(0)') }}" class="waves-effect"><i class="linea-icon linea-basic fa-fw" data-icon="e"></i>Email Formet</a></li>
-              <li><a href="{{ asset('javascript:void(0)') }}" class="waves-effect"><i class="linea-icon linea-basic fa-fw" data-icon="2"></i>Department</a></li>
-              <li><a href="{{ asset('javascript:void(0)') }}" class="waves-effect"><i class="linea-icon linea-basic fa-fw" data-icon="2"></i>Role</a></li>
-              <li><a href="{{ asset('javascript:void(0)') }}" class="waves-effect"><i class="linea-icon linea-basic fa-fw" data-icon="2"></i>Special Module permision</a></li>
+            <li><a href="{{ Route('index')}}"><i class="linea-icon linea-basic fa-fw" data-icon="!"></i> Users</a></li>
+              <li><a href="{{ asset('chat.html') }}"><i class="fa fa fa-fort-awesome" data-icon="v"></i> Company</a></li>
+              <li><a href="{{ asset('javascript:void(0)') }}" class="waves-effect"><i class="fa fa-sitemap" data-icon="v"></i> Department</a></li>
+              <li><a href="{{ asset('javascript:void(0)') }}" class="waves-effect"><i class="fa fa-envelope" data-icon="e"></i> Email Formet</a></li>
+              <li><a href="{{ asset('javascript:void(0)') }}" class="waves-effect"><i class="fa fa-file-video-o" data-icon="2"></i> Holiday</a></li>
+              <li><a href="{{ asset('javascript:void(0)') }}" class="waves-effect"><i class="fa icon-key" data-icon="2"></i> Role</a></li>
+              <li><a href="{{ asset('javascript:void(0)') }}" class="waves-effect"><i class="fa fa-key" data-icon="2"></i> Special Module permision</a></li>
 
           </li>
           
         </ul>
         </li>
-        <li> <a href="{{ asset('#') }}" class="waves-effect"><i data-icon="/" class="linea-icon linea-basic fa-fw"></i>
+        <li> <a href="{{ asset('#') }}" class="waves-effect"><i data-icon="/" class="ti-announcement"></i>
             <span class="hide-menu">Announcement</span></a>          
         </li>
-        <li> <a href="{{ asset('forms.html') }}" class="waves-effect"><i data-icon="&#xe00b;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Asset<span class="fa arrow"></span></span></a>
+        <li> <a href="{{ asset('forms.html') }}" class="waves-effect"><i data-icon="&#xe00b;" class="icon-rocket"></i> <span class="hide-menu">Asset<span class="fa arrow"></span></span></a>
           <ul class="nav nav-second-level">
             <!-- asset pages -->
           </ul>
@@ -60,12 +60,12 @@
         <li> <a href="{{ asset('#') }}" class="waves-effect"><i data-icon="&#xe008;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Attendance Menagment<span class="fa arrow"></span></span></a>
           <!-- attendance menagment pages -->
         </li>
-        <li> <a href="{{ asset('#') }}" class="waves-effect"><i data-icon="&#xe006;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Check Menagment<span class="fa arrow"></span></span></a>
+        <li> <a href="{{ asset('#') }}" class="waves-effect"><i data-icon="&#xe006;" class="fa fa-institution"></i> <span class="hide-menu">Check Menagment<span class="fa arrow"></span></span></a>
           <ul class="nav nav-second-level">
             <!-- check menagment pages -->
           </ul>
         </li>
-        <li> <a href="{{ asset('tables.html') }}" class="waves-effect"><i data-icon="O" class="linea-icon linea-software fa-fw"></i>
+        <li> <a href="{{ asset('tables.html') }}" class="waves-effect"><i data-icon="O" class="fa fa-file"></i>
         <span class="hide-menu">Company Document</span></span></a>          
         </li>
        

@@ -13,10 +13,13 @@
     <link href="{{ asset('bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- animation CSS -->
     <link href="{{ asset('css/animate.css') }}" rel="stylesheet">
+    <!--alerts CSS -->
+    <link href="../plugins/bower_components/sweetalert/sweetalert.css" rel="stylesheet" type="text/css">
     <!-- Custom CSS -->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <!-- color CSS -->
     <link href="{{ asset('css/colors/default.css') }}" id="theme" rel="stylesheet">
+    
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
@@ -65,6 +68,8 @@
         <div class="cssload-speeding-wheel"></div>
     </div> --}}
     @yield('main_section')
+    @include('sweetalert::alert')
+
     <!-- jQuery -->
     <script src="{{ asset('../plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
     <!-- Bootstrap Core JavaScript -->
@@ -76,6 +81,9 @@
     <script src="{{ asset('js/jquery.slimscroll.js') }}"></script>
     <!--Wave Effects -->
     <script src="{{ asset('js/waves.js') }}"></script>
+    <!-- Sweet-Alert  -->
+    <script src="../plugins/bower_components/sweetalert/sweetalert.min.js"></script>
+    <script src="../plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js"></script>
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('js/custom.min.js') }}"></script>
     <!--Style Switcher -->

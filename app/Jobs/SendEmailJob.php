@@ -29,7 +29,7 @@ class SendEmailJob implements ShouldQueue
      */
     public function handle(): void
     {
-        //
+       
         $email = new ForgotPasswordMail($this->data);
         Mail::to($this->data['email'])->send($email);
     }

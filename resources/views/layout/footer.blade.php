@@ -1,1 +1,1 @@
-<footer class="footer text-center">{{ date('Y')}} © Developed by Wappnet Systems.</footer>
+<footer class="footer text-center">{{ date('Y')}} © , Developed by Wappnet Systems.</footer>

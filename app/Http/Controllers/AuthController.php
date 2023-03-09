@@ -10,9 +10,12 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
-use App\Jobs\SendEmailJob;
 use App\Mail\ForgotPasswordMail;
 use App\Models\Password_Reset_Token;
+use App\Jobs\SendEmailJob;
+use RealRashid\SweetAlert\Facades\Alert;
+
+
 
 
 class AuthController extends Controller
@@ -36,6 +39,7 @@ class AuthController extends Controller
 
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
+            Alert::success('Congrats', 'Login Successfull');
             return view('dashboard.dashboard')->with('Success', 'You are signed in ');
         }
         return back()->with('error', 'Invalid UserId or password');
@@ -63,6 +67,8 @@ class AuthController extends Controller
         ]);
         // assigning role to user         
         $user->assignRole('Employee');
+        // alert()->success('Title','Lorem Lorem Lorem');
+        Alert::Success('Congrats', 'You\'ve Successfully Registered');
         return redirect("login")->with('success', 'You have signed-up');
     }
 
@@ -92,8 +98,8 @@ class AuthController extends Controller
 
         $data['email'] = $email;
         $data['token'] = $token;
-        Mail::to($email)->send(new ForgotPasswordMail($data));
-        // dispatch(new SendEmailJob($data));
+
+        dispatch(new SendEmailJob($data));
 
         return back()->with('success', 'Rest link send to your registered mail address!');
     }
@@ -114,11 +120,11 @@ class AuthController extends Controller
         ]);
 
         // checking token is expire or not 
-        $check_token = Password_Reset_Token::where('token','=', $request->token)->first();
+        $check_token = Password_Reset_Token::where('token', '=', $request->token)->first();
         if (!$check_token) {
             return back()->withInput()->with('fail', 'Invalid token');
         } else {
-            
+
             // performing reset password 
             User::where('email', $request->email)->update([
                 'password' => Hash::make($request->password)
@@ -130,9 +136,10 @@ class AuthController extends Controller
 
     //user dashboard
     public function dashboard()
-    {     
+    {
         if (Auth::check()) {
-            return view('dashboard');
+
+            return view('dashboard.dashboard');
         }
         return redirect("login")->with('error', 'You are not allowed to access');
     }
@@ -144,5 +151,4 @@ class AuthController extends Controller
         Auth::logout();
         return Redirect('login');
     }
-
 }
