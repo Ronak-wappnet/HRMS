@@ -7,7 +7,7 @@
     <div class="container-fluid">
         <div class="row bg-title">
             <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                <h4 class="page-title">Users</h4>
+                <h4 class="page-title">Holidays</h4>
             </div>
             <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
 
@@ -35,16 +35,18 @@
                     @endif
                     <div class="table-responsive">
                         @can('editUser') <div class="pull-left mb-2">
-                            <a class="btn btn-success" href="{{ Route('add') }}"> Add user</a>
+                            <a class="btn btn-success" href="#"> Add Holiday</a>
                         </div>
                         @endcan
                         <table class="table table-bordered user_datatable">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    @can('editUser')<th width="100px">Action</th>@endcan
+                                    <th>id</th>
+                                    <th>title</th>
+                                    <th>start_date</th>
+                                    <th>end_date</th>
+                                    <th>optional</th>
+                                    <th width="100px">Action</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -61,29 +63,39 @@
         var table = $('.user_datatable').DataTable({
             processing: true
             , serverSide: true
-            , ajax: "{{ route('indexAction') }}"
+            , ajax: "{{ route('listHoliday') }}"
             , columns: [{
-                    data: 'id'
-                    , name: 'id'
+                    data: 'id',
+                    ,name= 'id'
+                }
+                ,{
+                    data: 'title'
+                    , name: 'title'
                 }
                 , {
-                    data: 'name'
-                    , name: 'name'
+                    data: 'start_date'
+                    , name: 'start_date'
                 }
                 , {
-                    data: 'email'
-                    , name: 'email'
-                }
-                ,@can('editUser'){
+                    data: 'end_date'
+                    , name: 'end_date'
+                },{
+                    data: 'optional'
+                    , name: 'optional'
+                } ,              
+                ('editUser'){
                     data: 'action'
                     , name: 'action'
                     , orderable: false
                     , searchable: false
                 }
-                ,@endcan
+                
             ]
         });
-    })     
+    })  
+    
+
+
 </script>
 @include('layout.footer')
 @endsection

@@ -39,3 +39,11 @@ Route::post('/add-employee-action', [EmployeeController::class, 'addAction'])->n
 Route::get('/edit-employee/{user}', [EmployeeController::class, 'edit'])->name('edit');
 Route::post('/edit-employee-action/{user}', [EmployeeController::class, 'editAction'])->name('editAction');
 Route::get('/delete-employee/{id}', [EmployeeController::class, 'delete'])->name('delete');
+
+//create-holiday
+Route::get('/create-holiday',[UserController::class,'createHoliday'])->name('createHoliday');
+Route::post('/create-holiday-Action',[UserController::class,'createHolidayAction'])->name('createHolidayAction');
+
+//list holiday
+// Route::view('/holiday','user.holiday');
+// Route::get('/Holiday-data',[UserController::class,'index'])->name('listHoliday');

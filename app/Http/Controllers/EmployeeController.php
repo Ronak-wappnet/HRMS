@@ -84,7 +84,8 @@ class EmployeeController extends Controller
             'email' => 'required|email'
         ]);
         $user->update($request->all());
-        return redirect()->route('index')->with('Success','User Edited Successfully');
+        Alert::success('Employee Edited', 'Employee edited Successfully');
+        return redirect()->route('index');
     }
 
     //deleting employee
