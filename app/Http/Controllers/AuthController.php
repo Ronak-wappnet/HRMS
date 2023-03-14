@@ -4,22 +4,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use App\Models\User;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ForgotPasswordMail;
 use App\Models\Password_Reset_Token;
 use App\Jobs\SendEmailJob;
 use RealRashid\SweetAlert\Facades\Alert;
-
-
+use App\Repositories\UserRepository;
 
 
 class AuthController extends Controller
 {
+    private  $userRepository;
+
+    // initializing object of userRepository
+    public function __construct(UserRepository $userRepositoryInterface)
+    {
+        $this->userRepository = $userRepositoryInterface;
+    }
+
     // user login
     public function login(): View
     {
@@ -29,7 +33,7 @@ class AuthController extends Controller
         return view('Auth.login');
     }
 
-    //user loginAction 
+    // user loginAction 
     public function loginAction(Request $request)
     {
         $request->validate([
@@ -60,44 +64,28 @@ class AuthController extends Controller
             'password' => 'required|min:6',
         ]);
         $data = $request->all();
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
-        // assigning role to user         
-        $user->assignRole('Employee');
-        // alert()->success('Title','Lorem Lorem Lorem');
+
+        $this->userRepository->register($data);
         Alert::Success('Congrats', 'You\'ve Successfully Registered');
         return redirect("login")->with('success', 'You have signed-up');
     }
 
-    //for forgot password
+    // for forgot password
     public function forgotPassword(): View
     {
         return view('Auth.forgotPassword');
     }
 
-    //forgot passwordAction or Forgot password Form
+    // Forgot password Form
     public function forgotPasswordAction(Request $request)
     {
         $request->validate([
+
             'email' => 'required|email',
-        ]);
-        $user = User::where('email', $request->email)->first();
-        if (!$user) {
-            return back()->with('error', 'email id is not found!');
-        }
-        $token = Str::random(64);
-        $email = $request->email;
-        $record = Password_Reset_Token::where('email', $email)->delete();
-        $insert_data = Password_Reset_Token::create([
-            'email' => $email,
-            'token' => $token,
+
         ]);
 
-        $data['email'] = $email;
-        $data['token'] = $token;
+        $data = $this->userRepository->forgotPassword($request);
 
         dispatch(new SendEmailJob($data));
 
@@ -121,20 +109,22 @@ class AuthController extends Controller
 
         // checking token is expire or not 
         $check_token = Password_Reset_Token::where('token', '=', $request->token)->first();
+
         if (!$check_token) {
+
             return back()->withInput()->with('fail', 'Invalid token');
         } else {
-
             // performing reset password 
-            User::where('email', $request->email)->update([
-                'password' => Hash::make($request->password)
-            ]);
+            $this->userRepository->resetPassword($request);
+
+            //delet token
             Password_Reset_Token::where('email', $request->email)->delete();
+
             return redirect()->route('login')->with('info', 'Your password has been changed! You can login with new password')->with('verifiedEmail', $request->email);
         }
     }
 
-    //user dashboard
+    // user dashboard
     public function dashboard()
     {
         if (Auth::check()) {

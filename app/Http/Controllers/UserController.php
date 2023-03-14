@@ -13,9 +13,20 @@ use Illuminate\Auth\Access\Response as AccessResponse;
 use Illuminate\Support\Facades\Response;
 use Psr\Http\Message\ResponseInterface;
 use Yajra\DataTables\Contracts\DataTables;
+use App\Repositories\UserRepository;
+
 
 class UserController extends Controller
 {
+    private  $userRepository;
+
+    // initializing object of userRepository
+    public function __construct(UserRepository $userRepositoryInterface)
+    {
+        $this->userRepository = $userRepositoryInterface;
+    }
+
+
     //
     public function profile(): View
     {
@@ -32,11 +43,10 @@ class UserController extends Controller
         if ((User::where('name', '=', $request->username)->exists()) and (User::where('email', '=', $request->email)->exists())) {
             return back()->with("error", " username or password is already exist");
         }
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
-        $user->name = $request['username'];
-        $user->email = $request['email'];
-        $user->save();
+
+        // updating User-Profile
+        $this->userRepository->edit($request);
+       
         return back()->with('status', 'Profile Updated');
     }
 
@@ -56,11 +66,9 @@ class UserController extends Controller
             return back()->with("error", "Old Password Doesn't match!");
         }
 
-        User::Where('id', '=', auth()->user()->id)->update(
-            [
-                'password' => Hash::make($request->new_password)
-            ]
-        );
+        // changing user password
+        $this->userRepository->changePassword($request);
+       
         return back()->with("status", "Password changed successfully");
     }
 

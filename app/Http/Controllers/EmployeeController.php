@@ -4,24 +4,36 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Repositories\EmployeeRepository;
 use Illuminate\Contracts\View\View;
 use \Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Interfaces\EmployeeInterface;
+
 
 class EmployeeController extends Controller
 {
+
+    private $employeeRepository;
+
+    public function __construct(EmployeeRepository $employeeInterface)
+    {
+        $this->employeeRepository = $employeeInterface;
+    }
+
     // listing all the users
     public function index():View
     {
         return view('admin.users');
     }
 
-    //index action on employee 
+    // index action on employee 
     public function indexAction(Request $request)
     {
         if ($request->ajax()) {
-            $data = User::all();
+
+            $data = $this->employeeRepository->listEmployee();
             
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn("action", '<form action="" method="get">
@@ -42,13 +54,13 @@ class EmployeeController extends Controller
         return view('admin.users');
     }
 
-    //adding Employee 
+    // adding Employee 
     public function add():View
     {
         return view('admin.addEmployee');
     }
      
-    //add employee action page
+    // add employee action page
     public function addAction(Request $request)
     {
         $request->validate([
@@ -56,46 +68,45 @@ class EmployeeController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
         ]);
-        $data = $request->all();        
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);     
+        
+        // creating new Employee
+        $data = $request->all();         
+        $this->employeeRepository->add($data);
 
-        Alert::success('Employee Added', 'Employee added Successfully');
-          
+        Alert::success('Employee Added', 'Employee added Successfully');          
         return redirect()->route('index');
-        // return back()->with('success','User Added');
     }
 
-    //edit employee page
+    // edit employee page
     public function edit($id):View
     {         
-        $user=User::find($id);
+        // finding employee by id
+        $user = $this->employeeRepository->find($id);
         return view('admin.editEmployee',compact('user'));
     }
 
-    //edit employee action page
+    // edit employee action page
     public function editAction(Request $request, User $user)
     {
         $request->validate([
             'name' => 'required',
             'email' => 'required|email'
         ]);
-        $user->update($request->all());
+
+        // editing Employee
+        $this->employeeRepository->edit($request,$user);
+
         Alert::success('Employee Edited', 'Employee edited Successfully');
         return redirect()->route('index');
     }
 
-    //deleting employee
+    // deleting employee
     public function delete($id)
     {        
-        $user=User::find($id);
-        $user->delete();
+        // deleting Employee
+        $this->employeeRepository->delete($id);
+     
         Alert::success('Employee Deleted', 'Employee added Successfully');
         return back();
     }
-
-
 }

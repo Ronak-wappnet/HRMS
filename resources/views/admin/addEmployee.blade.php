@@ -19,8 +19,7 @@
         </div>
         <!-- Row -->
         <div class="col-md-12">
-            <div class="white-box">
-             
+            <div class="white-box">             
 
             @if(session()->has('success'))
                         <div class="alert alert-success  " role="alert">
