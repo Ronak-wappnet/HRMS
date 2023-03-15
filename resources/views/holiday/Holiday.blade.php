@@ -2,7 +2,6 @@
 @section('main_section')
 @include('layout.header')
 <!-- Page Content -->
-
 <div id="page-wrapper">
     <div class="container-fluid">
         <div class="row bg-title">
@@ -19,17 +18,19 @@
             <!-- /.col-lg-12 -->
         </div>
         <!-- Row -->
-        <div class="row">
-        
-        <div class="col-sm-12">
-         @can('editUser') <div>
-                            <a class="btn btn-success" href="{{ Route('add') }}"> Add user</a>
-                        </div>
-                        @endcan
-        </div>
+        <div class="row">    
+        <
+        <div class="pull-right" >
+                <a class="btn btn-success" href="{{ route('createHoliday') }}"> Create holiday</a>
+            <br>
+            <br>
+            </div> 
+           
+             <br>      
             <div class="col-sm-12">
+            
                 <div class="white-box">
-
+                    
                     @if (session()->has('status'))
                     <div class="alert alert-success" role="alert">
                         {{ session()->get('status') }}
@@ -40,19 +41,20 @@
                         {{ session()->get('Success') }}
                     </div>
                     @endif
-                    
+
                     <div class="table-responsive">
-                       
-                        <table class="table table-bordered user_datatable">
+
+                        <table class="table table-bordered" id="datatable-crud">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    @can('editUser')<th width="100px">Action</th>@endcan
+                                    <th>Id</th>
+                                    <th>title</th>
+                                    <th>start_date</th>
+                                    <th>end_date</th>
+                                    <th>optional</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody></tbody>
                         </table>
                     </div>
                 </div>
@@ -61,34 +63,45 @@
     </div>
 </div>
 <script type="text/javascript">
-    jQuery(function($) {
-
-        var table = $('.user_datatable').DataTable({
+    $(document).ready(function() {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $('#datatable-crud').DataTable({
             processing: true
             , serverSide: true
-            , ajax: "{{ route('indexAction') }}"
+            , ajax: "{{ route('holiday-indexAction') }}"
             , columns: [{
                     data: 'id'
                     , name: 'id'
                 }
                 , {
-                    data: 'name'
-                    , name: 'name'
+                    data: 'title'
+                    , name: 'title'
                 }
                 , {
-                    data: 'email'
-                    , name: 'email'
+                    data: 'start_date'
+                    , name: 'start_date'
                 }
-                ,@can('editUser'){
+                , {
+                    data: 'end_date'
+                    , name: 'end_date'
+                }
+                , {
+                    data: 'optional'
+                    , name: 'optional'
+                }
+                , {
                     data: 'action'
                     , name: 'action'
                     , orderable: false
-                    , searchable: false
                 }
-                ,@endcan
-            ]
+            , ]
         });
-    })     
+    });
+
 </script>
 
 @include('layout.footer')

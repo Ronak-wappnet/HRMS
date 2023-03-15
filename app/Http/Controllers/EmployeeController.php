@@ -10,25 +10,38 @@ use \Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Interfaces\EmployeeInterface;
-
+use Illuminate\Http\RedirectResponse;
+use Nette\Utils\Json;
+use Yajra\DataTables\Contracts\DataTable;
 
 class EmployeeController extends Controller
 {
-
     private $employeeRepository;
-
+    
+    /**
+     *  initializing object of userRepository 
+     * 
+     */
     public function __construct(EmployeeRepository $employeeInterface)
     {
         $this->employeeRepository = $employeeInterface;
     }
 
-    // listing all the users
+    /**
+     * index() will list all the employees or users 
+     * 
+     * return view
+     */
     public function index():View
     {
         return view('admin.users');
     }
 
-    // index action on employee 
+    /**
+     * indexAction() takes Request as argument
+     * 
+     * Return to users View
+     */ 
     public function indexAction(Request $request)
     {
         if ($request->ajax()) {
@@ -54,22 +67,32 @@ class EmployeeController extends Controller
         return view('admin.users');
     }
 
-    // adding Employee 
+    /**
+     * add() add the employee
+     * 
+     * Return addEmployee View
+     */
     public function add():View
     {
         return view('admin.addEmployee');
     }
      
-    // add employee action page
-    public function addAction(Request $request)
+    /** 
+     * addAction() takes Request as argument
+     * 
+     * Return RedirectResponse
+     */
+    public function addAction(Request $request): RedirectResponse
     {
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
         ]);
-        
-        // creating new Employee
+
+        /**
+         * creating new Employee
+         */
         $data = $request->all();         
         $this->employeeRepository->add($data);
 
@@ -77,7 +100,11 @@ class EmployeeController extends Controller
         return redirect()->route('index');
     }
 
-    // edit employee page
+    /**
+     * edit() takes id as argument for edit 
+     * 
+     * return compact view with Employee data
+     */
     public function edit($id):View
     {         
         // finding employee by id
@@ -85,8 +112,12 @@ class EmployeeController extends Controller
         return view('admin.editEmployee',compact('user'));
     }
 
-    // edit employee action page
-    public function editAction(Request $request, User $user)
+    /**
+     * editAction() takes Request and User as argument
+     * 
+     * return RedirectReasponse and redirect to index route
+     */
+    public function editAction(Request $request, User $user) : RedirectResponse
     {
         $request->validate([
             'name' => 'required',
@@ -100,8 +131,12 @@ class EmployeeController extends Controller
         return redirect()->route('index');
     }
 
-    // deleting employee
-    public function delete($id)
+    /**
+     * delete() will take employee id as argument 
+     * 
+     * return back to list employeepage
+     */
+    public function delete($id) : RedirectResponse
     {        
         // deleting Employee
         $this->employeeRepository->delete($id);

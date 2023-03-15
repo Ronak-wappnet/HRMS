@@ -12,19 +12,27 @@ use App\Models\Password_Reset_Token;
 use App\Jobs\SendEmailJob;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Repositories\UserRepository;
-
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 
 class AuthController extends Controller
 {
     private  $userRepository;
-
-    // initializing object of userRepository
+    
+    /**
+     *  initializing object of userRepository 
+     * 
+     */
     public function __construct(UserRepository $userRepositoryInterface)
     {
         $this->userRepository = $userRepositoryInterface;
     }
 
-    // user login
+    /**
+    *  User login function 
+    *
+    *  Return  loginpage 
+    */
     public function login(): View
     {
         if (!Auth::check()) {
@@ -33,8 +41,12 @@ class AuthController extends Controller
         return view('Auth.login');
     }
 
-    // user loginAction 
-    public function loginAction(Request $request)
+    /**
+     * User loginAction function takes Request as argument
+     * 
+     * return Redirect Response
+     */
+    public function loginAction(Request $request): RedirectResponse | View
     {
         $request->validate([
             'email' => 'required',
@@ -49,14 +61,22 @@ class AuthController extends Controller
         return back()->with('error', 'Invalid UserId or password');
     }
 
-    // user registration
+    /**
+     * user registration function 
+     * 
+     * Return registration page
+     */
     public function registration(): View
     {
         return view('Auth.Register');
     }
 
-    // user registration Acti0n
-    public function registrationAction(Request $request)
+    /**
+     * registrationAction function takes Request as argument
+     * 
+     * Return RedirectResponse 
+     */
+    public function registrationAction(Request $request): RedirectResponse
     {
         $request->validate([
             'name' => 'required',
@@ -70,14 +90,24 @@ class AuthController extends Controller
         return redirect("login")->with('success', 'You have signed-up');
     }
 
-    // for forgot password
+    /**
+     * user forgotPassword function 
+     * 
+     * return forgotpasswod page
+     */
     public function forgotPassword(): View
     {
         return view('Auth.forgotPassword');
     }
 
-    // Forgot password Form
-    public function forgotPasswordAction(Request $request)
+    /**
+     * forgotPasswordAction function takes Request as argument 
+     * 
+     * perform forgotPassword Functinality
+     * 
+     * return RedirectResponse
+     */
+    public function forgotPasswordAction(Request $request): RedirectResponse
     {
         $request->validate([
 
@@ -92,14 +122,22 @@ class AuthController extends Controller
         return back()->with('success', 'Rest link send to your registered mail address!');
     }
 
-    // for Reset passwordForm
+    /**
+     * resetPasswordForm takes Request and token as argument, default value of token = null
+     * 
+     * retunr View
+     */
     public function resetPasswordForm(Request $request, $token = null): View
     {
         return view('Auth.resetPassword')->with(['token' => $token, 'email' => $request->email]);
     }
-
-    // for Reset PasswordFormAction
-    public function resetPasswordFormAction(Request $request)
+    
+    /**
+     * resetPassword form takes Request as argument
+     * 
+     * return RedirectResponse  
+     */
+    public function resetPasswordFormAction(Request $request): RedirectResponse
     {
         $request->validate([
             'email' => 'required|email|exists:users',
@@ -107,14 +145,18 @@ class AuthController extends Controller
             'confirm_passsword' => 'required|same:password'
         ]);
 
-        // checking token is expire or not 
+        /**
+         * checking token is expire or not 
+         */
         $check_token = Password_Reset_Token::where('token', '=', $request->token)->first();
 
         if (!$check_token) {
 
             return back()->withInput()->with('fail', 'Invalid token');
         } else {
-            // performing reset password 
+            /**
+             * performing reset password 
+             */
             $this->userRepository->resetPassword($request);
 
             //delet token
@@ -124,8 +166,12 @@ class AuthController extends Controller
         }
     }
 
-    // user dashboard
-    public function dashboard()
+    /**
+     * Dashboard function 
+     * 
+     * return RedirectResponse 
+     */
+    public function dashboard(): RedirectResponse | View
     {
         if (Auth::check()) {
 
@@ -134,8 +180,10 @@ class AuthController extends Controller
         return redirect("login")->with('error', 'You are not allowed to access');
     }
 
-    // for user signout
-    public function signOut()
+    /**
+     * user signout
+     */
+    public function signOut(): RedirectResponse
     {
         Session::flush();
         Auth::logout();

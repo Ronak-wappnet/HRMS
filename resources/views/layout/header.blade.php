@@ -42,7 +42,7 @@
                         <li><a href="{{ asset('chat.html') }}"><i class="fa fa fa-fort-awesome" data-icon="v"></i> Company</a></li>
                         <li><a href="{{ asset('javascript:void(0)') }}" class="waves-effect"><i class="fa fa-sitemap" data-icon="v"></i> Department</a></li>
                         <li><a href="{{ asset('javascript:void(0)') }}" class="waves-effect"><i class="fa fa-envelope" data-icon="e"></i> Email Formet</a></li>
-                        <li><a href="{{ asset('javascript:void(0)') }}" class="waves-effect"><i class="fa fa-file-video-o" data-icon="2"></i> Holiday</a></li>
+                        <li><a href="{{ Route('holiday-index') }}" class="waves-effect"><i class="fa fa-file-video-o" data-icon="2"></i> Holiday</a></li>
                         <li><a href="{{ asset('javascript:void(0)') }}" class="waves-effect"><i class="fa icon-key" data-icon="2"></i> Role</a></li>
                         <li><a href="{{ asset('javascript:void(0)') }}" class="waves-effect"><i class="fa fa-key" data-icon="2"></i> Special Module permision</a></li>
 

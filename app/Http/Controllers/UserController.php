@@ -14,26 +14,36 @@ use Illuminate\Support\Facades\Response;
 use Psr\Http\Message\ResponseInterface;
 use Yajra\DataTables\Contracts\DataTables;
 use App\Repositories\UserRepository;
-
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 
 class UserController extends Controller
 {
     private  $userRepository;
 
-    // initializing object of userRepository
+    /**
+     *  initializing object of userRepository 
+     * 
+     */
     public function __construct(UserRepository $userRepositoryInterface)
     {
         $this->userRepository = $userRepositoryInterface;
     }
 
-
-    //
-    public function profile(): View
+    /**
+     * profile() return profile view 
+     */
+    public function profile() : View
     {
         return view('user.profile');
     }
 
-    public function profileAction(Request $request)
+    /**
+     * profileAction() takes Request as argument
+     * 
+     * return RedirectResponse
+     */
+    public function profileAction(Request $request): RedirectResponse
     {
         $request->validate([
             'username' => 'required',
@@ -50,12 +60,20 @@ class UserController extends Controller
         return back()->with('status', 'Profile Updated');
     }
 
+    /**
+     * changePassword() return changePassword page
+     */
     public function changePassword(): View
     {
         return view('user.changePassword');
     }
 
-    public function changePasswordAction(Request $request)
+    /**
+     * changePasswordAction() takes Request as argument
+     * 
+     * return RedirectRespose 
+     */
+    public function changePasswordAction(Request $request):RedirectResponse
     {
         $request->validate([
             'old_password' => 'required',
@@ -70,63 +88,6 @@ class UserController extends Controller
         $this->userRepository->changePassword($request);
        
         return back()->with("status", "Password changed successfully");
-    }
-
-    //user holiday page
-    public function createHoliday(): View
-    {
-        return view('admin.addHoliday');
-    }
-
-    //create holiday form action
-    public function createHolidayAction(Request $request)
-    {
-        $request->validate([
-            'title' => 'required',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date',
-            'year' => 'required',
-        ]);
-        $data = $request->all();
-        $holiday = new Holiday;
-        if (array_key_exists('optional', $data)) {
-
-            $holiday->title = $data['title'];
-            $holiday->start_date = $data['start_date'];
-            $holiday->end_date = $data['end_date'];
-            $holiday->optional = 0;
-            $holiday->save();
-
-        } else {
-
-            $holiday->title = $data['title'];
-            $holiday->start_date = $data['start_date'];
-            $holiday->end_date = $data['end_date'];
-            $holiday->save();
-        }
-        return back()->with('success', 'Holiday added');
-    }
-    //list holiday code
-    // public function index(Request $request)
-    // {
-    //     if ($request->ajax()) {
-    //         $holiday = Holiday ::all();            
-    //         return Datatables::of($holiday)->addIndexColumn()
-    //             ->addColumn("action", '<form action="" method="get">
-    //             @csrf
-    //             @method("DELETE")                
-    //                 <a  href="#" title="Delete" >
-    //                 <i class="fa fa-trash" style="font-size:20px;color:red "></i>
-    //             </a>               
-    //             @method("Edit")
-    //                 <a  href="#" title="Edit"  >
-    //                 <i class="fa fa-edit" style="font-size:20px;color:green "></i>
-    //             </a>   
-    //             </form>')
-    //             ->rawColumns(['action'])
-    //             ->addIndexColumn()
-    //             ->make(true);
-    //     }
-    //     return view('user.holiday');
-    // }
+    } 
+   
 }

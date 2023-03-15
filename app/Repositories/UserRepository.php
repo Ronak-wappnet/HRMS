@@ -12,6 +12,13 @@ use Illuminate\Support\Facades\Auth;
 class UserRepository implements UserInterface
 {
 
+    /**
+     * register() takes Request (data array) as argument
+     * 
+     * assing Employee role to user
+     *  
+     * @return void
+     */
     public function register($data)
     {
         $user = User::create([
@@ -23,6 +30,11 @@ class UserRepository implements UserInterface
         $user->assignRole('Employee');
     }
 
+    /**
+     * forgotPassword() takes request as argument
+     * 
+     * @return  data array 
+     */
     public function forgotPassword($request)
     {
         $user = User::where('email', $request->email)->first();
@@ -41,6 +53,13 @@ class UserRepository implements UserInterface
         return $data;
     }
 
+    /**
+     * resetPassword() takes request as argument
+     * 
+     * will update the password using email
+     * 
+     * @return void
+     */
     public function resetPassword($request)
     {        
             User::where('email', $request->email)->update([
@@ -49,6 +68,13 @@ class UserRepository implements UserInterface
             ]);           
     }    
 
+    /**
+     * edit() takes request as argument
+     * 
+     * edit the user 
+     * 
+     * @return void
+     */
     public function edit($request)
     {
          /** @var \App\Models\User $user */
@@ -58,6 +84,13 @@ class UserRepository implements UserInterface
          $user->save();
     }
     
+    /**
+     * changePassword takes request as argument 
+     * 
+     * update password using id
+     * 
+     * @return void
+     */
     public function changePassword($request)
     {
         User::Where('id', '=', auth()->user()->id)->update(

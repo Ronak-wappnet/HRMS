@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('../plugins/images/favicon.png') }}">
     <title>Elite Admin - is a responsive admin template</title>
     <!-- Bootstrap Core CSS -->
@@ -19,7 +20,7 @@
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <!-- color CSS -->
     <link href="{{ asset('css/colors/default.css') }}" id="theme" rel="stylesheet">
-    
+
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
@@ -88,6 +89,7 @@
     <script src="{{ asset('js/custom.min.js') }}"></script>
     <!--Style Switcher -->
     <script src="{{ asset('../plugins/bower_components/styleswitcher/jQuery.style.switcher.js') }}"></script>
-
+    <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 </body>
 </html>
