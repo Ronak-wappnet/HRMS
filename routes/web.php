@@ -44,7 +44,7 @@ Route::group((['middleware' => 'auth']), function () {
 
     //admin action on Employee
     Route::group(["prefix" => "Employee"], function () {
-        
+
         Route::get('/list', [EmployeeController::class, 'index'])->name('index');
         Route::get('/list-action', [EmployeeController::class, 'indexAction'])->name('indexAction');
         Route::get('/add', [EmployeeController::class, 'add'])->name('add');
@@ -53,14 +53,18 @@ Route::group((['middleware' => 'auth']), function () {
         Route::post('/edit-action/{user}', [EmployeeController::class, 'editAction'])->name('editAction');
         Route::get('/delete/{id}', [EmployeeController::class, 'delete'])->name('delete');
     });
-});
-//holidays
-Route::group(['prefix' => 'Holiday'], function () {
+    
+    //holidays
+    Route::group(['prefix' => 'Holiday'], function () {
 
-    Route::get('/list', [HolidayController::class, 'index'])->name('holiday-index');
-    Route::get('/list-action', [HolidayController::class, 'indexAction'])->name('holiday-indexAction');
+        Route::get('/list', [HolidayController::class, 'index'])->name('holiday-index');
+        Route::get('/list-action', [HolidayController::class, 'indexAction'])->name('holiday-indexAction');
 
-    Route::get('/create', [HolidayController::class, 'createHoliday'])->name('createHoliday');
-    Route::post('/create-Action', [HolidayController::class, 'createHolidayAction'])->name('createHolidayAction');
+        Route::get('/create', [HolidayController::class, 'createHoliday'])->name('createHoliday');
+        Route::post('/create-Action', [HolidayController::class, 'createHolidayAction'])->name('createHolidayAction');
+        
+        Route::get('/edit/{id}',[HolidayController::class,'edit'])->name('holiday-edit');
+        Route::post('/editAction',[HolidayController::class,'editAction'])->name('holiday-edit-action');
+        Route::delete('/delete/{id}',[HolidayController::class,'delete'])->name('holiday-delete');
+    });
 });
-Route::view('list', 'listHoliday');

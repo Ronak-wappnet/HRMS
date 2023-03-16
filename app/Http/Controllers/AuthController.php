@@ -121,7 +121,7 @@ class AuthController extends Controller
 
         return back()->with('success', 'Rest link send to your registered mail address!');
     }
-
+    
     /**
      * resetPasswordForm takes Request and token as argument, default value of token = null
      * 

@@ -46,7 +46,7 @@
                                     <th>start_date</th>
                                     <th>end_date</th>
                                     <th>optional</th>
-                                    <th width="100px">Action</th>
+                                    @can('editUser')<th width="100px">Action</th>@endcan
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -65,10 +65,11 @@
             , serverSide: true
             , ajax: "{{ route('listHoliday') }}"
             , columns: [{
-                    data: 'id',
-                    ,name= 'id'
+                    data: 'id'
+                    , 
+                    , name = 'id'
                 }
-                ,{
+                , {
                     data: 'title'
                     , name: 'title'
                 }
@@ -79,22 +80,20 @@
                 , {
                     data: 'end_date'
                     , name: 'end_date'
-                },{
+                }, {
                     data: 'optional'
                     , name: 'optional'
-                } ,              
-                ('editUser'){
+                }
+                , @can('editUser') {
                     data: 'action'
                     , name: 'action'
                     , orderable: false
-                    , searchable: false
                 }
-                
+                , @endcan
+
             ]
         });
-    })  
-    
-
+    })
 
 </script>
 @include('layout.footer')

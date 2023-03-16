@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('title',30);
             $table->string('start_date');
             $table->string('end_date');
-            $table->boolean('optional')->default(1);
+            $table->string('day');
+            $table->string('optional')->default('no');
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('holidays');
+        Schema::dropIfExists('holiday');
     }
 };

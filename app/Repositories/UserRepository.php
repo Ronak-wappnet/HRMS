@@ -2,12 +2,13 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\UserInterface;
 use App\Models\User;
-use App\Models\Password_Reset_Token;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Hash;
+use App\Interfaces\UserInterface;
+use App\Models\Password_Reset_Token;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class UserRepository implements UserInterface
 {
@@ -50,6 +51,11 @@ class UserRepository implements UserInterface
         ]);
         $data['email'] = $email;
         $data['token'] = $token;
+        Mail::send('email.forgotpasswordMail', ['token' => $token], function ($message) use ($request) {
+            $message->from('rronak0016@gmail.com');
+            $message->to($request->email);
+            $message->subject('Reset password');
+        });
         return $data;
     }
 

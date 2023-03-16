@@ -18,19 +18,22 @@
             <!-- /.col-lg-12 -->
         </div>
         <!-- Row -->
-        <div class="row">    
-        <
-        <div class="pull-right" >
+        <div class="row">
+
+            @can('editUser')
+            <div class="pull-right">
                 <a class="btn btn-success" href="{{ route('createHoliday') }}"> Create holiday</a>
+                <br>
+                <br>
+            </div>
+
+            @endcan
+
             <br>
-            <br>
-            </div> 
-           
-             <br>      
             <div class="col-sm-12">
-            
+
                 <div class="white-box">
-                    
+
                     @if (session()->has('status'))
                     <div class="alert alert-success" role="alert">
                         {{ session()->get('status') }}
@@ -47,12 +50,15 @@
                         <table class="table table-bordered" id="datatable-crud">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
+                                    <th>id</th>
                                     <th>title</th>
-                                    <th>start_date</th>
-                                    <th>end_date</th>
-                                    <th>optional</th>
+                                    <th>day</th>
+                                    <th>date</th>
+                                    <th>is_optional</th>
+                                    @can('editUser')
                                     <th>Action</th>
+                                    @endcan
+                                    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                 </tr>
                             </thead>
                         </table>
@@ -62,7 +68,38 @@
         </div>
     </div>
 </div>
+
+
 <script type="text/javascript">
+
+    $(document).ready(function() {
+        $(document).on('click', 'button', function(e) {
+            e.preventDefault();
+            swal({
+                title: 'Are you sure?'
+                , text: "Please click confirm to delete this item"
+                , type: 'warning'
+                , showCancelButton: true
+                , confirmButtonColor: '#3085d6'
+                , cancelButtonColor: '#d33'
+                , confirmButtonText: 'Yes, delete it!'
+                , cancelButtonText: 'No, cancel!'
+                , confirmButtonClass: 'btn btn-success'
+                , cancelButtonClass: 'btn btn-danger'
+                , buttonsStyling: true
+            }).then(function() {
+                $("#confirm_delete").off("submit").submit();
+            }, function(dismiss) {
+                // dismiss can be 'cancel', 'overlay',
+                // 'close', and 'timer'
+                if (dismiss === 'cancel') {
+                    swal('Cancelled', 'Delete Cancelled :)', 'error');
+                }
+            })
+        });
+    });
+    
+    
     $(document).ready(function() {
         $.ajaxSetup({
             headers: {
@@ -74,35 +111,46 @@
             , serverSide: true
             , ajax: "{{ route('holiday-indexAction') }}"
             , columns: [{
+
                     data: 'id'
                     , name: 'id'
-                }
-                , {
+                },
+
+                {
                     data: 'title'
                     , name: 'title'
+                }
+                , {
+                    data: 'day'
+                    , name: 'day'
                 }
                 , {
                     data: 'start_date'
                     , name: 'start_date'
                 }
                 , {
-                    data: 'end_date'
-                    , name: 'end_date'
-                }
-                , {
                     data: 'optional'
                     , name: 'optional'
                 }
-                , {
+                , @can('editUser') {
                     data: 'action'
                     , name: 'action'
                     , orderable: false
+                    , searchable: true
                 }
-            , ]
+                , @endcan
+            ]
         });
     });
 
 </script>
 
+<script>
+    <link href="{{ asset('/dist/css/sweetalert.css') }}" rel="stylesheet">
+<script src="{{ asset('/dist/js/sweetalert.min.js') }}">
+
+</script>
+
+</script>
 @include('layout.footer')
 @endsection
