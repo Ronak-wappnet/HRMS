@@ -6,7 +6,7 @@
     <div class="container-fluid">
         <div class="row bg-title">
             <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                <h4 class="page-title">Users</h4>
+                <h4 class="page-title">Holidays</h4>
             </div>
             <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
 
@@ -69,37 +69,8 @@
     </div>
 </div>
 
+<script>
 
-<script type="text/javascript">
-
-    $(document).ready(function() {
-        $(document).on('click', 'button', function(e) {
-            e.preventDefault();
-            swal({
-                title: 'Are you sure?'
-                , text: "Please click confirm to delete this item"
-                , type: 'warning'
-                , showCancelButton: true
-                , confirmButtonColor: '#3085d6'
-                , cancelButtonColor: '#d33'
-                , confirmButtonText: 'Yes, delete it!'
-                , cancelButtonText: 'No, cancel!'
-                , confirmButtonClass: 'btn btn-success'
-                , cancelButtonClass: 'btn btn-danger'
-                , buttonsStyling: true
-            }).then(function() {
-                $("#confirm_delete").off("submit").submit();
-            }, function(dismiss) {
-                // dismiss can be 'cancel', 'overlay',
-                // 'close', and 'timer'
-                if (dismiss === 'cancel') {
-                    swal('Cancelled', 'Delete Cancelled :)', 'error');
-                }
-            })
-        });
-    });
-    
-    
     $(document).ready(function() {
         $.ajaxSetup({
             headers: {
@@ -145,12 +116,35 @@
 
 </script>
 
-<script>
-    <link href="{{ asset('/dist/css/sweetalert.css') }}" rel="stylesheet">
-<script src="{{ asset('/dist/js/sweetalert.min.js') }}">
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(document).on('click', '.delete', function(e) {
+            e.preventDefault();           
+
+            Swal.fire({
+                title: 'Are you sure?'
+                , text: "You won't be able to revert this!"
+                , icon: 'warning'
+                , showCancelButton: true
+                , confirmButtonColor: '#3085d6'
+                , cancelButtonColor: '#d33'
+                , confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) { 
+                    $("#confirm_delete").submit(),
+                    Swal.fire(
+                        'Deleted!'
+                        , 'Your file has been deleted.'
+                        , 'success'
+                    )
+                }
+            })
+        });
+    });
 
 </script>
 
-</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 @include('layout.footer')
 @endsection

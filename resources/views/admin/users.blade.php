@@ -39,8 +39,7 @@
                     <div class="alert alert-success" role="alert">
                         {{ session()->get('Success') }}
                     </div>
-                    @endif
-                    
+                    @endif                    
                     <div class="table-responsive">
                        
                         <table class="table table-bordered user_datatable">

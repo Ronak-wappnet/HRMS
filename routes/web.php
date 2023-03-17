@@ -23,7 +23,7 @@ Route::group(["middleware" => "guest"], function () {
 
     //user resetPassword
     Route::get('/resetPasswordForm/{token}', [AuthController::class, 'resetPasswordForm'])->name('resetPasswordForm');
-    Route::post('/resetPassword', [AuthController::class, 'resetPasswordFormAction'])->name('resetPasswordFormAction');
+    Route::post('/resetPassword', [AuthController::class, 'reguestsetPasswordFormAction'])->name('resetPasswordFormAction');
 });
 
 Route::group((['middleware' => 'auth']), function () {
