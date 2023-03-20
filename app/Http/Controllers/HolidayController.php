@@ -28,18 +28,17 @@ class HolidayController extends Controller
             $data = Holiday::select('id', 'title', 'day', 'start_date', 'optional')->get();
 
             return datatables()->of($data)
-                ->addColumn("action", '<form id="confirm_delete" action="{{ Route("holiday-delete",$id) }}" method="POST">
-            @csrf
+                ->addColumn("action", '
+
             @method("Edit")
                 <a  href="{{ Route("holiday-edit",$id ) }}" title="Edit" >
                 <i class="fa fa-edit" style="font-size:20px;color:green "></i>
             </a>
             @method("DELETE")                
-                <button  href="#" class="delete" title="delete" data-id={{ $id }} type="submit">
+                <button  href="#" class="delete" title="delete" data-url="{{ Route("holiday-delete", $id ) }}" data-id={{ $id }} type="submit">
                 <i class="fa fa-trash" style="font-size:20px;color:red "></i>
             </button>              
-               
-            </form>')
+           ')
                 ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
@@ -131,7 +130,6 @@ class HolidayController extends Controller
 
     public function delete($id)
     {
-        dd($id);
         $holiday = Holiday::find($id);
         $holiday->delete();
         return back();

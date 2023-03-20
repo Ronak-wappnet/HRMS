@@ -120,10 +120,11 @@
     $(document).ready(function() {
         $(document).on('click', '.delete', function(e) {
             e.preventDefault();           
-
+            var id = $(this).attr("data-id");
+            var url = $(this).attr("data-url");
             Swal.fire({
                 title: 'Are you sure?'
-                , text: "You won't be able to revert this!"
+                , text: "Do you want to delete Holiday!"
                 , icon: 'warning'
                 , showCancelButton: true
                 , confirmButtonColor: '#3085d6'
@@ -131,17 +132,17 @@
                 , confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) { 
-                    $("#confirm_delete").submit(),
+                    window.location.href= url,
                     Swal.fire(
                         'Deleted!'
-                        , 'Your file has been deleted.'
+                        , 'Holiday has been deleted.'
                         , 'success'
                     )
                 }
             })
         });
     });
-
+    
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

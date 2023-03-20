@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\HolidayController;
+use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\UserController;
 use App\Models\Holiday;
 
@@ -59,12 +60,22 @@ Route::group((['middleware' => 'auth']), function () {
 
         Route::get('/list', [HolidayController::class, 'index'])->name('holiday-index');
         Route::get('/list-action', [HolidayController::class, 'indexAction'])->name('holiday-indexAction');
-
         Route::get('/create', [HolidayController::class, 'createHoliday'])->name('createHoliday');
-        Route::post('/create-Action', [HolidayController::class, 'createHolidayAction'])->name('createHolidayAction');
-        
+        Route::post('/create-Action', [HolidayController::class, 'createHolidayAction'])->name('createHolidayAction');        
         Route::get('/edit/{id}',[HolidayController::class,'edit'])->name('holiday-edit');
         Route::post('/editAction',[HolidayController::class,'editAction'])->name('holiday-edit-action');
-        Route::delete('/delete/{id}',[HolidayController::class,'delete'])->name('holiday-delete');
+        Route::get('/delete/{id}',[HolidayController::class,'delete'])->name('holiday-delete');
     });
+
+    //leaves
+    Route::group(['prefix' => 'leave'],function(){
+
+       
+        
+    });
+
+
 });
+
+Route::post('add-Action',[LeaveController::class,'addAction'])->name('leave-add-action');
+Route::view('test','leave.add_leave');

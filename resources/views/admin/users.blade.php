@@ -59,6 +59,34 @@
         </div>
     </div>
 </div>
+<script>
+  $(document).ready(function() {
+        $(document).on('click', '.delete', function(e) {
+            e.preventDefault();           
+            var id = $(this).attr("data-id");
+            var url = $(this).attr("data-url");
+            Swal.fire({
+                title: 'Are you sure?'
+                , text: "Do you want to delete Holiday!"
+                , icon: 'warning'
+                , showCancelButton: true
+                , confirmButtonColor: '#3085d6'
+                , cancelButtonColor: '#d33'
+                , confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) { 
+                    window.location.href= url,
+                    Swal.fire(
+                        'Deleted!'
+                        , 'Holiday has been deleted.'
+                        , 'success'
+                    )
+                }
+            })
+        });
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript">
     jQuery(function($) {
 

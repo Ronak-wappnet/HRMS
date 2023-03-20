@@ -52,8 +52,9 @@ class EmployeeController extends Controller
                 ->addColumn("action", '<form action="" method="get">
                 @csrf
                 @method("DELETE")                
-                    <a  href="{{Route("delete",$id)}}" title="Delete" >
-                    <i class="fa fa-trash" style="font-size:20px;color:red "></i>
+                <button  href="#" class="delete" title="delete" data-url="{{ Route("delete", $id ) }}" data-id={{ $id }} type="submit">
+                <i class="fa fa-trash" style="font-size:20px;color:red "></i>
+                </button> 
                 </a>               
                 @method("Edit")
                     <a  href="{{Route("edit",$id)}}" title="Edit"  >
@@ -141,7 +142,7 @@ class EmployeeController extends Controller
         // deleting Employee
         $this->employeeRepository->delete($id);
      
-        Alert::success('Employee Deleted', 'Employee added Successfully');
+       
         return back();
     }
 }
