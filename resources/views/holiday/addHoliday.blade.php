@@ -39,9 +39,9 @@
                                 <div class="example">
                                     <label class="control-label">Date</label>
                                     <div class="input-daterange input-group" id="date-range">
-                                        <input type="text" class="form-control" name="start_date" />
+                                        <input type="text" placeholder="Start Date" class="form-control" id="start-date" name="start_date" />
                                         <span class="input-group-addon bg-info b-0 text-white">to</span>
-                                        <input type="text" class="form-control" name="end_date" />
+                                        <input type="text" placeholder="End Date" class="form-control" id="end-date"name="end_date" />
                                     </div>
                                 </div>
                             </div>
@@ -54,9 +54,9 @@
                         </div>
                         <div class="col-md-12">
                             <div class="col-md-6">
-                                <div class="form-group">
+                                <div class="form-group ">
                                     <label class="control-label">Year</label>
-                                    <input type="number" id="title" class="form-control" name="year" placeholder="Year" min="2023" max="9999">
+                                    <select id="ddlYears" class="form-control " name="year"></select>
                                 </div>
                             </div>
                         </div>
@@ -76,36 +76,54 @@
                 </div>
             </div>
             <script>
-             $('#holiday').validate({
-        rules: {
-            title: {
-                required: true,
-            },
-            start_date: {
-                required: true,
-            },
-            end_date: {
-                required: true,
-            },
-            year : {
-                required : true,
-            },
-        },
-        messages: {            
-            title: {
-                required: "Please enter Holiday title",
-            },
-            start_date: {
-                required: "please enter holiday start date",
-            },
-            end_date:{
-                required: "please enter holiday End date",
-            },
-            year : {
-                required: "please enter year of holiday",
-            },
-        },
-    })
+                $('#holiday').validate({
+                        rules: {
+                            title: {
+                                required: true
+                            , }
+                            , start_date: {
+                                required: true
+                            , }
+                            , end_date: {
+                                required: true
+                            , }
+                            , year: {
+                                required: true
+                            , }
+                        , }
+                        , messages: {
+                            title: {
+                                required: "Please enter Holiday title"
+                            , }
+                            , start_date: {
+                                required: "please enter holiday start date"
+                            , }
+                            , end_date: {
+                                required: "please enter holiday End date"
+                            , }
+                            , year: {
+                                required: "please enter year of holiday"
+                            , }
+                        , }
+                    , })
+                     <script >
+                    $(document).ready(function() {
+                        $('#holida').submit(function(e) {
+                            e.preventDefault();
+                            var start_date = new Date($('#start-date').val());
+                            var end_date = new Date($('#end-date').val());
+
+                            if (end_date < start_date) {
+                                alert('End date must be greater than or equal to start date!');
+                            } else {
+                                // Submit the form
+                                $(this).unbind('submit').submit();
+                            }
+                        });
+                    });
+
+            </script>
+
             </script>
             <script src="../plugins/bower_components/jquery/dist/jquery.min.js"></script>
             <!-- Bootstrap Core JavaScript -->
@@ -133,41 +151,6 @@
             <script src="../plugins/bower_components/timepicker/bootstrap-timepicker.min.js"></script>
             <script src="../plugins/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
             <script>
-                // Clock pickers
-                $('#single-input').clockpicker({
-                    placement: 'bottom'
-                    , align: 'left'
-                    , autoclose: true
-                    , 'default': 'now'
-
-                });
-
-                $('.clockpicker').clockpicker({
-                        donetext: 'Done',
-
-                    })
-                    .find('input').change(function() {
-                        console.log(this.value);
-                    });
-
-                $('#check-minutes').click(function(e) {
-                    // Have to stop propagation here
-                    e.stopPropagation();
-                    input.clockpicker('show')
-                        .clockpicker('toggleView', 'minutes');
-                });
-                if (/mobile/i.test(navigator.userAgent)) {
-                    $('input').prop('readOnly', true);
-                }
-                // Colorpicker
-
-                $(".colorpicker").asColorPicker();
-                $(".complex-colorpicker").asColorPicker({
-                    mode: 'complex'
-                });
-                $(".gradient-colorpicker").asColorPicker({
-                    mode: 'gradient'
-                });
                 // Date Picker
                 jQuery('.mydatepicker, #datepicker').datepicker();
                 jQuery('#datepicker-autoclose').datepicker({
@@ -211,6 +194,24 @@
                         days: 6
                     }
                 });
+
+            </script>
+            <script type="text/javascript">
+                window.onload = function() {
+                    //Reference the DropDownList.
+                    var ddlYears = document.getElementById("ddlYears");
+
+                    //Determine the Current Year.
+                    var currentYear = (new Date()).getFullYear();
+
+                    //Loop and add the Year values to DropDownList.
+                    for (var i = currentYear; i <= 2100; i++) {
+                        var option = document.createElement("OPTION");
+                        option.innerHTML = i;
+                        option.value = i;
+                        ddlYears.appendChild(option);
+                    }
+                };
 
             </script>
 

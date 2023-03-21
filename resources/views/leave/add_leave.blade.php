@@ -16,21 +16,21 @@
             <!-- /.col-lg-12 -->
         </div>
         <!-- Row -->
-        @if (session()->has('success'))
+        @if (session()->has('Success'))
         <div class="alert alert-success" role="alert">
-            {{ session()->get('success') }}
+            {{ session()->get('Success') }}
         </div>
         @endif
         <div class="row">
             <div class="col-sm-7">
                 <div class="white-box">
-                    <form data-toggle="validator" method="post" action="{{ Route("leave-add-action") }}">
+                    <form data-toggle="validator" method="post" id="leave" action="{{ Route("leave-add-action") }}">
                         @csrf
                         <div class="col-md-12">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="leave_subject">Subject:</label>
-                                    <input type="text" name="subject" id="leave_subject" class="form-control" >
+                                    <input type="text" name="subject" id="leave_subject" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -80,7 +80,7 @@
                         <div class="col-md-12">
                             <div class="col-md-6"><br>
                                 <label for="leave_reason">Leave Reason</label>
-                                <select name="leave_reason" id="is_full_day" class="form-control">
+                                <select name="reason" id="is_full_day" class="form-control">
                                     <option value="Sick Leave">Sick Day</option>
                                     <option value="Urgent Leave">Urgent Day</option>
                                     <option value="Personal Leave">Personal Day</option>
@@ -90,7 +90,7 @@
                         <div class="col-md-12">
                             <div class="col-md-12"><br>
                                 <label for="work_reliever">Reliever Work details:</label>
-                                <input type="text" name="reliever_work" id="work_reliever" class="form-control" value="{{ old('work_reliever') }}">
+                                <input type="text" name="reliver_work" id="work_reliever" class="form-control" value="{{ old('work_reliever') }}">
                                 <br>
                             </div>
                         </div>
@@ -102,9 +102,12 @@
                 </div>
             </div>
             <script>
-                $('#holiday').validate({
+                $('#leave').validate({
                     rules: {
-                        title: {
+                        subject: {
+                            required: true
+                        , }
+                        , description: {
                             required: true
                         , }
                         , start_date: {
@@ -113,25 +116,36 @@
                         , end_date: {
                             required: true
                         , }
-                        , year: {
+                        , reason: {
                             required: true
                         , }
-                    , }
-                    , messages: {
-                        title: {
-                            required: "Please enter Holiday title"
+                        , reliver_work: {
+                            required: true
                         , }
-                        , start_date: {
-                            required: "please enter holiday start date"
+                        }
+                        , messages: {
+                            subject: {
+                                required: "Please enter Leave Subject"
+                            , }
+                            , description: {
+                                required: "please enter Leave description"
+                            , }
+
+                            , start_date: {
+                                required: "please enter Leave start_date"
+                            , }
+                            , end_date: {
+                                required: "please enter Leave end_date"
+                            , }
+                            , reason: {
+                                required: "please enter Leave Reason"
+                            , }
+                            , reliver_work: {
+                                required: "Please enter Leave reliver_work"
+                            , }
                         , }
-                        , end_date: {
-                            required: "please enter holiday End date"
-                        , }
-                        , year: {
-                            required: "please enter year of holiday"
-                        , }
-                    , }
-                , })
+                   
+                 })
 
             </script>
 

@@ -10,6 +10,9 @@ use app\Repositories\UserRepository;
 use app\Repositories\EmployeeRepository;
 use app\Interfaces\EmployeeInterface;
 
+use app\Repositories\LeaveRepository;
+use app\Interfaces\LeaveInterface;
+
 class RepositoryServiceProvider extends ServiceProvider
 {
     /**
@@ -18,7 +21,8 @@ class RepositoryServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(UserInterface::class, UserRepository::class);
-        $this->app->bind(EmployeeInterface::class, EmployeeRepository::class);        
+        $this->app->bind(EmployeeInterface::class, EmployeeRepository::class);    
+        $this->app->bind(LeaveInterface::class,LeaveRepository::class);    
     }
 
     /**
