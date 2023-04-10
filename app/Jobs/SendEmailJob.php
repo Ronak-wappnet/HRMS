@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Mail;
 
 class SendEmailJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable;
+    use  SerializesModels;
     public $data;
     /**
      * Create a new job instance.
